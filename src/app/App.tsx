@@ -46,7 +46,7 @@ export default function App(props: Props) {
     });
   }, []);
 
-  //Memoize the three closest trucks to `start`
+  //Memoize the three closest trucks to current location
   const closest = useMemo(() => {
     //Calculate the haversine distance
     const mapped = json.map(truck => {
@@ -75,7 +75,7 @@ export default function App(props: Props) {
     const sorted =  _.sortBy(filtered, 'distance');
     return sorted.slice(0, 3);
   }, [location, json]);
-  console.log(closest);
+
   return (
     <div className='h-full w-full justify-center items-center flex'>
       { !isOpen &&
