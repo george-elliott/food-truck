@@ -32,8 +32,8 @@ export default function App(props: Props) {
     //Get current position or use mock location in San Francisco
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation({
-        longitude: -122.4,
-        latitude: 37.8,
+        longitude: position.coords.longitude,
+        latitude: position.coords.latitude,
       });
     }, () => {
       // Error

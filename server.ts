@@ -5,11 +5,7 @@ const fs = require('fs');
 
 const json = fs.readFileSync('./response.json', 'utf-8');
 
-type Req = {};
-type Res = {
-  send: (x: object) => void;
-};
-app.get('/', (req: Req, res: Res) => {
+app.get('/', (req, res) => {
   res.send(json);
 });
 
