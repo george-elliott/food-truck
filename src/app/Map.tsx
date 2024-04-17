@@ -1,15 +1,12 @@
 import MapGL, {Marker} from 'react-map-gl';
-import {Truck} from './types';
+import {Truck, Location} from './types';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const TOKEN = 'pk.eyJ1IjoiZ2VlaGF3cyIsImEiOiJjbHYxa3VrcWYwMW9hMnBsamg2N3dkaThkIn0.vpOSGmcmYoHZxb2cTB7cgQ';
 
 interface Props {
   trucks: Truck[];
-  location: {
-    latitude: number;
-    longitude: number;
-  }
+  location: Location;
 }
 
 export default function Map(props: Props) {

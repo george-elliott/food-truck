@@ -7,3 +7,8 @@ export type Truck = {
   applicant: string;
   distance: number;
 }
+
+export type Location = {
+  latitude: number;
+  longitude: number;
+}

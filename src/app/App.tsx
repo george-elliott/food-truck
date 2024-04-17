@@ -4,7 +4,7 @@ import {useState, useMemo, useEffect} from "react";
 import Map from './Map';
 import haversine from 'haversine';
 import _ from 'lodash';
-import {Truck} from './types';
+import {Truck, Location} from './types';
 import moment from 'moment';
 import Table from './Table';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -26,7 +26,7 @@ interface Props {
 export default function App(props: Props) {
   const {json} = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState<Location>({} as Location);
 
   useEffect(() => {
     //Get current position or use mock location in San Francisco
