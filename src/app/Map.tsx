@@ -1,35 +1,8 @@
-import MapGL, {Source, Layer} from 'react-map-gl';
+import MapGL, {Marker} from 'react-map-gl';
 import {Truck} from './types';
-import type {CircleLayer} from 'react-map-gl';
-import type {FeatureCollection} from 'geojson';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 const TOKEN = 'pk.eyJ1IjoiZ2VlaGF3cyIsImEiOiJjbHYxa3VrcWYwMW9hMnBsamg2N3dkaThkIn0.vpOSGmcmYoHZxb2cTB7cgQ';
-
-const layerStyle: CircleLayer = {
-  id: 'point',
-  type: 'circle',
-  paint: {
-    'circle-radius': 11,
-    'circle-color': '#007cbf'
-  }
-};
-
-const getData = (truck: Truck) => {
-  const geojson: FeatureCollection = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [parseFloat(truck.longitude), parseFloat(truck.latitude)],
-        },
-        properties: {},
-      }
-    ]
-  };
-
-  return geojson;
-}
 
 interface Props {
   trucks: Truck[];
@@ -41,7 +14,8 @@ interface Props {
 
 export default function Map(props: Props) {
   const {trucks, location} = props;
-  const first = trucks[0]
+  const first = trucks[0];
+
   return (
     <MapGL
       mapboxAccessToken={TOKEN}
@@ -53,9 +27,12 @@ export default function Map(props: Props) {
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
       { trucks.map((truck, i) => (
-        <Source key={i} id={truck.applicant} type="geojson" data={getData(truck)}>
-          <Layer {...layerStyle} />
-        </Source>
+        <Marker
+          key={i}
+          longitude={parseFloat(truck.longitude)}
+          latitude={parseFloat(truck.latitude)}
+          anchor='bottom'/>
+
       ))}
     </MapGL>
   );

@@ -7,6 +7,7 @@ import _ from 'lodash';
 import {Truck} from './types';
 import moment from 'moment';
 import Table from './Table';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const DAYS: Record<number, string> = {
   0: 'Sunday',
@@ -25,17 +26,14 @@ interface Props {
 export default function App(props: Props) {
   const {json} = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [location, setLocation] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
+  const [location, setLocation] = useState({});
 
   useEffect(() => {
     //Get current position or use mock location in San Francisco
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
+        longitude: -122.4,
+        latitude: 37.8,
       });
     }, () => {
       // Error
@@ -84,11 +82,15 @@ export default function App(props: Props) {
         </Button>
       }
       {
-        isOpen &&
-        <div>
+        isOpen && location.longitude && location.latitude &&
+        <div className='h-full'>
           <Map trucks={closest} location={location}/>
           <Table trucks={closest} />
         </div>
+      }
+      {
+        isOpen && !location.longitude && !location.latitude &&
+        <CircularProgress />
       }
     </div>
   );
