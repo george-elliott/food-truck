@@ -1,6 +1,6 @@
 'use client';
 import Button from '@mui/material/Button';
-import {useState, useMemo} from "react";
+import {useState, useMemo, useEffect} from "react";
 import Map from './Map';
 import haversine from 'haversine';
 import _ from 'lodash';
@@ -25,14 +25,30 @@ interface Props {
 export default function App(props: Props) {
   const {json} = props;
   const [isOpen, setIsOpen] = useState(false);
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
 
-  const start = {
-    longitude: -122.4,
-    latitude: 37.8,
-  };
+  useEffect(() => {
+    //Get current position or use mock location in San Francisco
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    }, () => {
+      // Error
+      setLocation({
+        longitude: -122.4,
+        latitude: 37.8,
+      })
+    });
+  }, []);
 
   //Memoize the three closest trucks to `start`
   const closest = useMemo(() => {
+    //Calculate the haversine distance
     const mapped = json.map(truck => {
       const end = {
         longitude: parseFloat(truck.longitude),
@@ -41,20 +57,25 @@ export default function App(props: Props) {
 
       return {
         ...truck,
-        distance: haversine(start, end),
+        distance: haversine(location, end),
       }
-    })
+    });
+
+    //Filter trucks open now and within 5 miles
     const filtered = mapped.filter(truck => {
       const now = moment();
       const start = moment(truck.starttime, 'ha');
       const end = moment(truck.endtime, 'ha');
       return truck.dayofweekstr === DAYS[moment().day()] &&
-        now.isBetween(start, end);
+        now.isBetween(start, end) &&
+        truck.distance <= 5;
     });
 
+    //Sort by distance
     const sorted =  _.sortBy(filtered, 'distance');
     return sorted.slice(0, 3);
-  }, [])
+  }, [location, json]);
+  console.log(closest);
   return (
     <div className='h-full w-full justify-center items-center flex'>
       { !isOpen &&
@@ -65,7 +86,7 @@ export default function App(props: Props) {
       {
         isOpen &&
         <div>
-          <Map trucks={closest}/>
+          <Map trucks={closest} location={location}/>
           <Table trucks={closest} />
         </div>
       }

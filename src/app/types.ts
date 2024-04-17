@@ -5,4 +5,5 @@ export type Truck = {
   starttime: string;
   endtime: string;
   applicant: string;
+  distance: number;
 }

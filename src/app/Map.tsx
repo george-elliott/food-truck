@@ -33,17 +33,20 @@ const getData = (truck: Truck) => {
 
 interface Props {
   trucks: Truck[];
+  location: {
+    latitude: number;
+    longitude: number;
+  }
 }
 
 export default function Map(props: Props) {
-  const {trucks} = props;
+  const {trucks, location} = props;
   const first = trucks[0]
   return (
     <MapGL
       mapboxAccessToken={TOKEN}
       initialViewState={{
-        longitude: -122.4,
-        latitude: 37.8,
+        ...location,
         zoom: 13,
       }}
       style={{width: 400, height: 400}}

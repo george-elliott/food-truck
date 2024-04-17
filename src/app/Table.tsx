@@ -20,6 +20,7 @@ export default function TrucksTable(props: Props) {
           <TableRow>
             <TableCell>Distance</TableCell>
             <TableCell>Name</TableCell>
+            <TableCell>Closing Time</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,11 +29,14 @@ export default function TrucksTable(props: Props) {
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell>
                 {Math.round(row.distance * 100) / 100} Miles
               </TableCell>
-              <TableCell component="th" scope="row">
+              <TableCell>
                 {row.applicant}
+              </TableCell>
+              <TableCell align="right">
+                {row.endtime}
               </TableCell>
             </TableRow>
           ))}
