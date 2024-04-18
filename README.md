@@ -2,35 +2,39 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, run the development servers:
 
 ```bash
+node server.ts
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run test
+```
+To run the test suite.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Short cuts
+I only wrote one test for demonstrative purposes. The UI scales to small screen
+sizes but it's otherwise not optimized for mobile. I don't live in SF anymore
+so I used mock coordinates. These are the coordinates that will be used if the user
+does not allow the browser access to location data.
 
-## Learn More
+## Path to production
+Vercel makes deploying the React app very simple. The server will need to be hosted
+and the React app will need configuration parameters providing details of the host.
+The server needs error handling. If I were to take
+it to production I would use a serverless function (AWS Lamda or Azure Functions).
 
-To learn more about Next.js, take a look at the following resources:
+## Next Steps
+The most impactful thing we can do next is to add information about the results we're
+already providing. Linking to the website, or more specifically to the menu would
+make our app much more useful. Calculating the walking time could be an interesting feature.
+I think the question is whether we want to focus in on the clostest
+food trucks or widen the scope to options that are farther away.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I would like to add more interactivity to the map. Including the ability to view content like 
+the name and the cuisine. The markers on the map should be an easy way to access any
+functionality we provide.
